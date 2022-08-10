@@ -81,7 +81,7 @@ namespace ApiSipay.Controllers
 
         [HttpPost("checkBinCode")]
 
-        public ActionResult CheckBinCode(string binCode, decimal amount, bool isRecurring)
+        public ActionResult CheckBinCode([FromBody] string binCode)
         {
             if (binCode.Length >= 6)
             {
@@ -95,9 +95,9 @@ namespace ApiSipay.Controllers
                 SipayGetPosRequest posRequest = new SipayGetPosRequest();
 
                 posRequest.CreditCardNo = binCode;
-                posRequest.Amount = amount;
+                posRequest.Amount = 1;
                 posRequest.CurrencyCode = "TRY";
-                posRequest.IsRecurring = isRecurring;
+                posRequest.IsRecurring = false;
 
                 SipayGetPosResponse posResponse = SipayPaymentService.GetPos(posRequest, settings, GetAuthorizationToken(settings).Data.token);
 
