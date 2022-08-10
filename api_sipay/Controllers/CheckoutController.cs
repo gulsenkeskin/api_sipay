@@ -49,28 +49,34 @@ namespace ApiSipay.Controllers
 
             if (model.Is3D == PaymentType.WhiteLabel3D || model.Is3D == PaymentType.WhiteLabel2DOr3D)
             {
-                Sipay3DPaymentRequest paymentRequest = new Sipay3DPaymentRequest(settings, model.SelectedPosData);
-
-                paymentRequest.CCNo = model.CCNo.Replace(" ", "");
-                paymentRequest.CCHolderName = model.CCHolderName;
-                paymentRequest.CCV = model.CCV;
-                paymentRequest.ExpiryYear = model.ExpiryYear.ToString();
-                paymentRequest.ExpiryMonth = model.ExpiryMonth.ToString();
-                paymentRequest.InvoiceDescription = "";
-                Random rnd = new Random();
-                int num = rnd.Next();
-                paymentRequest.InvoiceId = num.ToString();
 
                 string baseUrl = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value;
-                paymentRequest.ReturnUrl = baseUrl + "/Checkout/SuccessUrl";
-                paymentRequest.CancelUrl = baseUrl + "/Checkout/CancelUrl";
+                Sipay3DPaymentRequest paymentRequest = new Sipay3DPaymentRequest(settings, model,baseUrl);
 
-                string requestForm = paymentRequest.GenerateFormHtmlToRedirect(_config["SIPAY:BaseUrl"] + "/api/pay3d");
+                //paymentRequest.CCNo = model.CardNumber.Replace(" ", "");
+                //paymentRequest.CCHolderName = model.CardHolderName;
+                //paymentRequest.CCV = model.CardCode;
+                //paymentRequest.ExpiryYear = model.ExpireYear.ToString();
+                //paymentRequest.ExpiryMonth = model.ExpireMonth.ToString();
+                //paymentRequest.InvoiceDescription = "";
+                //Random rnd = new Random();
+                //int num = rnd.Next();
+                //paymentRequest.InvoiceId = num.ToString();
 
-                var bytes = Encoding.UTF8.GetBytes(requestForm);
-                await HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+                //string baseUrl = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value;
+                //paymentRequest.ReturnUrl = baseUrl + "/Checkout/SuccessUrl";
+                //paymentRequest.CancelUrl = baseUrl + "/Checkout/CancelUrl";
 
-                //return View("Request3DSipay", requestForm);
+                //string requestForm = paymentRequest.GenerateFormHtmlToRedirect(_config["SIPAY:BaseUrl"] + "/api/pay3d");
+
+                //var bytes = Encoding.UTF8.GetBytes(requestForm);
+                //await HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+
+                ////return View("Request3DSipay", requestForm);
+                ///
+
+                return Ok(new { data = paymentRequest, formUrl = _config["SIPAY:BaseUrl"] + "/api/pay3d" });
+
             }
 
             //return View();
@@ -81,9 +87,9 @@ namespace ApiSipay.Controllers
 
         [HttpPost("checkBinCode")]
 
-        public ActionResult CheckBinCode([FromBody] string binCode)
+        public ActionResult CheckBinCode([FromBody] CheckBinCodeRequest request)
         {
-            if (binCode.Length >= 6)
+            if (request.binCode.Length >= 6)
             {
                 Settings settings = new Settings();
 
@@ -94,18 +100,20 @@ namespace ApiSipay.Controllers
 
                 SipayGetPosRequest posRequest = new SipayGetPosRequest();
 
-                posRequest.CreditCardNo = binCode;
+                posRequest.CreditCardNo = request.binCode;
                 posRequest.Amount = 1;
                 posRequest.CurrencyCode = "TRY";
                 posRequest.IsRecurring = false;
 
                 SipayGetPosResponse posResponse = SipayPaymentService.GetPos(posRequest, settings, GetAuthorizationToken(settings).Data.token);
 
+                if (posResponse.Data.Count > 0)
+                {
+                    var data = posResponse.Data[0];
+                    posResponse.Data.Clear();
+                    posResponse.Data.Add(data);
+                }
 
-
-                var data = posResponse.Data[0];
-                posResponse.Data.Clear();
-                posResponse.Data.Add(data);
 
                 return Ok(new { posResponse = posResponse, is_3d = GetAuthorizationToken(settings).Data.is_3d });
 

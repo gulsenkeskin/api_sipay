@@ -27,7 +27,8 @@ namespace ApiSipay
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+                   options.JsonSerializerOptions.PropertyNameCaseInsensitive = false);
 
             services.AddSwaggerGen(c =>
             {
@@ -57,6 +58,18 @@ namespace ApiSipay
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    corsBuilder => corsBuilder
+                        .WithOrigins("http://localhost:3000")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +97,8 @@ namespace ApiSipay
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
