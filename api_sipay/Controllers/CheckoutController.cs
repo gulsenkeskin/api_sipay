@@ -17,7 +17,7 @@ namespace ApiSipay.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CheckoutController : Controller
+    public class CheckoutController : ControllerBase
     {
         private readonly ILogger<CheckoutController> _logger;
         private readonly IConfiguration _config;
