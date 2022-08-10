@@ -37,7 +37,7 @@ namespace ApiSipay.Controllers
         //}
 
         [HttpPost("index")]
-        public async Task<IActionResult> Index(CheckoutModel model)
+        public async Task<IActionResult> Index([FromBody] CheckoutModel model)
         {
             Settings settings = new Settings();
 
