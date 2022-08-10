@@ -1,6 +1,6 @@
 using System;
 
-namespace api_sipay
+namespace ApiSipay
 {
     public class WeatherForecast
     {

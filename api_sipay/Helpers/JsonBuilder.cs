@@ -3,7 +3,7 @@ using Newtonsoft.Json.Serialization;
 using System.Net.Http;
 using System.Text;
 
-namespace SipayASPNetCore.Helpers
+namespace ApiSipay.Helpers
 {
     public class JsonBuilder
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace api_sipay.Controllers
+namespace ApiSipay.Controllers
 {
     [ApiController]
     [Route("[controller]")]

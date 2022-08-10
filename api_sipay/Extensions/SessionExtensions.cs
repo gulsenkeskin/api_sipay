@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 
-namespace SipayASPNetCore.Extensions
+namespace ApiSipay.Extensions
 {
     public static class SessionExtensions
     {
