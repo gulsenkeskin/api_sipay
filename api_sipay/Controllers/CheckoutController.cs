@@ -102,6 +102,7 @@ namespace ApiSipay.Controllers
                 SipayGetPosResponse posResponse = SipayPaymentService.GetPos(posRequest, settings, GetAuthorizationToken(settings).Data.token);
 
 
+
                 var data = posResponse.Data[0];
                 posResponse.Data.Clear();
                 posResponse.Data.Add(data);
