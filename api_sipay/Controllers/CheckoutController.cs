@@ -100,9 +100,6 @@ namespace ApiSipay.Controllers
 
                     string requestForm = paymentRequest.GenerateFormHtmlToRedirect(_config["SIPAY:BaseUrl"] + "/api/pay3d");
 
-                    //var bytes = Encoding.UTF8.GetBytes(requestForm);
-                    //await HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
-
                     return Ok(requestForm);
 
                 }
@@ -112,40 +109,6 @@ namespace ApiSipay.Controllers
             return Ok();
         }
 
-        //public ActionResult CheckBinCode( string  binCode)
-        //{
-        //    if (binCode.Length >= 6)
-        //    {
-        //        Settings settings = new Settings();
-
-        //        settings.AppID = _config["SIPAY:AppID"];
-        //        settings.AppSecret = _config["SIPAY:AppSecret"];
-        //        settings.MerchantKey = _config["SIPAY:MerchantKey"];
-        //        settings.BaseUrl = _config["SIPAY:BaseUrl"];
-
-        //        SipayGetPosRequest posRequest = new SipayGetPosRequest();
-
-        //        posRequest.CreditCardNo = binCode;
-        //        posRequest.Amount = 1;
-        //        posRequest.CurrencyCode = "TRY";
-        //        posRequest.IsRecurring = false;
-
-        //        SipayGetPosResponse posResponse = SipayPaymentService.GetPos(posRequest, settings, GetAuthorizationToken(settings).Data.token);
-
-        //        if (posResponse.Data.Count > 0)
-        //        {
-        //            var data = posResponse.Data[0];
-        //            posResponse.Data.Clear();
-        //            posResponse.Data.Add(data);
-        //        }
-
-
-        //        return Ok(new { posResponse = posResponse, is_3d = GetAuthorizationToken(settings).Data.is_3d });
-
-        //    }
-
-        //    return Ok();
-        //}
 
         [NonAction]
         public SipayTokenResponse GetAuthorizationToken(Settings settings)
