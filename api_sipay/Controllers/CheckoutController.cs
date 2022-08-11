@@ -50,32 +50,28 @@ namespace ApiSipay.Controllers
             if (model.Is3D == PaymentType.WhiteLabel3D || model.Is3D == PaymentType.WhiteLabel2DOr3D)
             {
 
+                Sipay3DPaymentRequest paymentRequest = new Sipay3DPaymentRequest(settings, model.SelectedPosData);
+
+                paymentRequest.CCNo = model.CardNumber.Replace(" ", "");
+                paymentRequest.CCHolderName = model.CardHolderName;
+                paymentRequest.CCV = model.CardCode;
+                paymentRequest.ExpiryYear = model.ExpireYear.ToString();
+                paymentRequest.ExpiryMonth = model.ExpireMonth.ToString();
+                paymentRequest.InvoiceDescription = "";
+                Random rnd = new Random();
+                int num = rnd.Next();
+                paymentRequest.InvoiceId = num.ToString();
+
                 string baseUrl = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value;
-                Sipay3DPaymentRequest paymentRequest = new Sipay3DPaymentRequest(settings, model,baseUrl);
+                paymentRequest.ReturnUrl = baseUrl + "/Checkout/SuccessUrl";
+                paymentRequest.CancelUrl = baseUrl + "/Checkout/CancelUrl";
 
-                //paymentRequest.CCNo = model.CardNumber.Replace(" ", "");
-                //paymentRequest.CCHolderName = model.CardHolderName;
-                //paymentRequest.CCV = model.CardCode;
-                //paymentRequest.ExpiryYear = model.ExpireYear.ToString();
-                //paymentRequest.ExpiryMonth = model.ExpireMonth.ToString();
-                //paymentRequest.InvoiceDescription = "";
-                //Random rnd = new Random();
-                //int num = rnd.Next();
-                //paymentRequest.InvoiceId = num.ToString();
-
-                //string baseUrl = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value;
-                //paymentRequest.ReturnUrl = baseUrl + "/Checkout/SuccessUrl";
-                //paymentRequest.CancelUrl = baseUrl + "/Checkout/CancelUrl";
-
-                //string requestForm = paymentRequest.GenerateFormHtmlToRedirect(_config["SIPAY:BaseUrl"] + "/api/pay3d");
+                string requestForm = paymentRequest.GenerateFormHtmlToRedirect(_config["SIPAY:BaseUrl"] + "/api/pay3d");
 
                 //var bytes = Encoding.UTF8.GetBytes(requestForm);
                 //await HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
 
-                ////return View("Request3DSipay", requestForm);
-                ///
-
-                return Ok(new { data = paymentRequest, formUrl = _config["SIPAY:BaseUrl"] + "/api/pay3d" });
+                return Ok(requestForm);
 
             }
 
