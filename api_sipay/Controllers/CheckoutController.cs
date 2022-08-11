@@ -31,11 +31,6 @@ namespace ApiSipay.Controllers
             _httpContextAccessor = httpContextAccessor;
         } 
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
         [HttpPost("index")]
         public async Task<IActionResult> Index([FromBody] CheckoutModel model)
         {
@@ -75,10 +70,7 @@ namespace ApiSipay.Controllers
 
             }
 
-            //return View();
             return Ok();
-
-
         }
 
         [HttpPost("checkBinCode")]
@@ -131,7 +123,7 @@ namespace ApiSipay.Controllers
             return HttpContext.Session.Get<SipayTokenResponse>("token");
         }
 
-        [HttpPost("successUrl")]
+        [HttpGet("successUrl")]
         public IActionResult SuccessUrl()
         {
             string sipay_status = HttpContext.Request.Query["sipay_status"];
@@ -144,14 +136,11 @@ namespace ApiSipay.Controllers
                  + "sipay_status :" + sipay_status + "order_no :" + order_no + "status_description :" + status_description
                  + "sipay_payment_method :" + sipay_payment_method;
 
-            //ViewBag.SuccessMessage = fullQuery;
-
-            //return View();
             return Ok(fullQuery);
         }
 
 
-        [HttpPost("cancelUrl")]
+        [HttpGet("cancelUrl")]
         public IActionResult CancelUrl()
         {
             string error_code = HttpContext.Request.Query["error-code"];
@@ -167,9 +156,6 @@ namespace ApiSipay.Controllers
                  + "sipay_status :" + sipay_status + "order_no :" + order_no + "status_description :" + status_description
                  + "sipay_payment_method :" + sipay_payment_method;
 
-            //ViewBag.Error = fullQuery;
-
-            //return View();
             return Ok(fullQuery);
 
         }

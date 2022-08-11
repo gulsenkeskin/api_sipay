@@ -46,7 +46,6 @@ namespace ApiSipay.Requests
         public string RecurringPaymentCycle { private get; set; }
         public int RecurringPaymentInterval { private get; set; }
         public string RecurringWebhookKey { private get; set; }
-
         public string HashKey { private get; set; }
 
 
@@ -67,11 +66,9 @@ namespace ApiSipay.Requests
         private string invoice_description { get { return this.InvoiceDescription; } }
         private string total { get { return Total.ToString("0.00").Replace(",", "."); } }
         private string payable_amount { get { return PayableAmount.ToString("0.00").Replace(",", "."); } }
-
         private List<Item> items { get { return this.Items; } }
         private string name { get { return this.Name; } }
         private string surname { get { return this.SurName; } }
-
         public string discount { get { return this.Discount; } }
         public string coupon { get { return this.Coupon; } }
         public string bill_address1 { get { return this.BillingAddress1; } }
@@ -82,13 +79,11 @@ namespace ApiSipay.Requests
         public string bill_country { get { return this.BillingCountry; } }
         public string bill_email { get { return this.BillingEmail; } }
         public string bill_phone { get { return this.BillingPhone; } }
-
         public int order_type { get { return this.IsRecurringPayment ? 1 : 0; } }
         public int recurring_payment_number { get { return this.RecurringPaymentNumber; } }
         public string recurring_payment_cycle { get { return this.RecurringPaymentCycle; } }
         public int recurring_payment_interval { get { return this.RecurringPaymentInterval; } }
         public string recurring_web_hook_key { get { return this.RecurringWebhookKey; } }
-
         public string hash_key { get { return this.HashKey; } }
 
         public Sipay3DPaymentRequest(Settings settings, PosData posData)
@@ -147,14 +142,14 @@ namespace ApiSipay.Requests
 
             formData.AppendFormat("<input type='hidden' name='name' value='{0}'>", this.name);
             formData.AppendFormat("<input type='hidden' name='surname' value='{0}'>", this.surname);
-            if (this.IsRecurringPayment)
-            {
-                formData.AppendFormat("<input type='hidden' name='order_type' value='{0}'>", this.order_type);
-                formData.AppendFormat("<input type='hidden' name='recurring_payment_number' value='{0}'>", this.recurring_payment_number);
-                formData.AppendFormat("<input type='hidden' name='recurring_payment_cycle' value='{0}'>", this.recurring_payment_cycle);
-                formData.AppendFormat("<input type='hidden' name='recurring_payment_interval' value='{0}'>", this.recurring_payment_interval);
-                formData.AppendFormat("<input type='hidden' name='recurring_web_hook_key' value='{0}'>", this.recurring_web_hook_key);
-            }
+            //if (this.IsRecurringPayment)
+            //{
+            //    formData.AppendFormat("<input type='hidden' name='order_type' value='{0}'>", this.order_type);
+            //    formData.AppendFormat("<input type='hidden' name='recurring_payment_number' value='{0}'>", this.recurring_payment_number);
+            //    formData.AppendFormat("<input type='hidden' name='recurring_payment_cycle' value='{0}'>", this.recurring_payment_cycle);
+            //    formData.AppendFormat("<input type='hidden' name='recurring_payment_interval' value='{0}'>", this.recurring_payment_interval);
+            //    formData.AppendFormat("<input type='hidden' name='recurring_web_hook_key' value='{0}'>", this.recurring_web_hook_key);
+            //}
             formData.AppendFormat("<input type='hidden' name='hash_key' value='{0}'>", this.hash_key);
 
 
