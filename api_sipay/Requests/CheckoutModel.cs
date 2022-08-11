@@ -13,7 +13,5 @@ namespace ApiSipay.Requests
         public PaymentType Is3D { get; set; }
         public PosData SelectedPosData { get; set; }
 
-        
-
     }
 }
