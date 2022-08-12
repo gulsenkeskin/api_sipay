@@ -47,7 +47,7 @@ namespace ApiSipay.Controllers
                 SipayGetPosRequest posRequest = new SipayGetPosRequest();
 
                 posRequest.CreditCardNo = model.CardNumber;
-                posRequest.Amount = 1;
+                posRequest.Amount = 1; //ödenecek tutar
                 posRequest.CurrencyCode = "TRY";
                 posRequest.IsRecurring = false;
 
@@ -132,11 +132,14 @@ namespace ApiSipay.Controllers
             string status_description = HttpContext.Request.Query["status_description"];
             string sipay_payment_method = HttpContext.Request.Query["sipay_payment_method"];
 
-            string fullQuery = " invoice_id : " + invoice_id
-                 + "sipay_status :" + sipay_status + "order_no :" + order_no + "status_description :" + status_description
-                 + "sipay_payment_method :" + sipay_payment_method;
+            //string fullQuery = " invoice_id : " + invoice_id
+            //     + "sipay_status :" + sipay_status + "order_no :" + order_no + "status_description :" + status_description
+            //     + "sipay_payment_method :" + sipay_payment_method;
 
-            return Ok(fullQuery);
+
+
+
+            return Ok(sipay_status);
         }
 
 
@@ -152,11 +155,11 @@ namespace ApiSipay.Controllers
             string status_description = HttpContext.Request.Query["status_description"];
             string sipay_payment_method = HttpContext.Request.Query["sipay_payment_method"];
 
-            string fullQuery = "error_code : " + error_code + " invoice_id : " + invoice_id + " error : " + error
-                 + "sipay_status :" + sipay_status + "order_no :" + order_no + "status_description :" + status_description
-                 + "sipay_payment_method :" + sipay_payment_method;
+            //string fullQuery = "error_code : " + error_code + " invoice_id : " + invoice_id + " error : " + error
+            //     + "sipay_status :" + sipay_status + "order_no :" + order_no + "status_description :" + status_description
+            //     + "sipay_payment_method :" + sipay_payment_method;
 
-            return Ok(fullQuery);
+            return Ok(sipay_status);
 
         }
 

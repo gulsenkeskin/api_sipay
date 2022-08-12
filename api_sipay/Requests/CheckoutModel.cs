@@ -12,6 +12,8 @@ namespace ApiSipay.Requests
         public string CardCode { get; set; }
         public PaymentType Is3D { get; set; }
         public PosData SelectedPosData { get; set; }
+        public decimal Total { get; set; }
+
 
     }
 }
