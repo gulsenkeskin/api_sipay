@@ -95,8 +95,11 @@ namespace ApiSipay.Controllers
                     paymentRequest.InvoiceId = num.ToString();
 
                     string baseUrl = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value;
-                    paymentRequest.ReturnUrl = baseUrl + "/Checkout/SuccessUrl";
-                    paymentRequest.CancelUrl = baseUrl + "/Checkout/CancelUrl";
+                    //paymentRequest.ReturnUrl = baseUrl + "/Checkout/SuccessUrl";
+                    //paymentRequest.CancelUrl = baseUrl + "/Checkout/CancelUrl";
+
+                    paymentRequest.ReturnUrl = "http://localhost:3000/OdemeBasarili";
+                    paymentRequest.CancelUrl = "http://localhost:3000/OdemeBasarisiz";
 
                     string requestForm = paymentRequest.GenerateFormHtmlToRedirect(_config["SIPAY:BaseUrl"] + "/api/pay3d");
 
@@ -135,11 +138,12 @@ namespace ApiSipay.Controllers
             //string fullQuery = " invoice_id : " + invoice_id
             //     + "sipay_status :" + sipay_status + "order_no :" + order_no + "status_description :" + status_description
             //     + "sipay_payment_method :" + sipay_payment_method;
+            //return Ok(sipay_status);
+
+            //return Ok("ÖDEME İŞLEMİ BAŞARILI");
+            return Ok();
 
 
-
-
-            return Ok(sipay_status);
         }
 
 
@@ -159,7 +163,11 @@ namespace ApiSipay.Controllers
             //     + "sipay_status :" + sipay_status + "order_no :" + order_no + "status_description :" + status_description
             //     + "sipay_payment_method :" + sipay_payment_method;
 
-            return Ok(sipay_status);
+            //return Ok(sipay_status);
+
+            //return Ok("ÖDEME İŞLEMİ BAŞARISIZ");
+
+            return Ok();
 
         }
 
